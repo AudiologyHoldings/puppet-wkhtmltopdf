@@ -22,7 +22,7 @@ class wkhtmltopdf {
   
   $filename = "wkhtmltox-${version}_linux-${series}-${arch}.deb"
   $source = "http://downloads.sourceforge.net/project/wkhtmltopdf/${version}/${filename}"
-  $deb_file = "/var/cache/${filename}.deb"
+  $deb_file = "/var/cache/${filename}"
   
   exec { "$deb_file":
     command => "wget --timestamping $source --output-document=$deb_file",
@@ -32,8 +32,8 @@ class wkhtmltopdf {
     creates => "$deb_file";
   }
   
-  package {"wkhtmltopdf":
-    ensure => installed,
+  package {"wkhtmltox":
+    ensure => latest,
     source => $deb_file,
     provider => dpkg,
     require  => Exec["$deb_file"],
