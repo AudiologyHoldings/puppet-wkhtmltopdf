@@ -14,18 +14,16 @@
 # Example use:
 #   wkhtmltopdf { }
 #
-classs wkhtmltopdf {
+class wkhtmltopdf {
   
   $version = '0.12.1'
   $arch = 'amd64'
   $series = 'trusty'
   
   $filename = "wkhtmltox-${version}_linux-${series}-${arch}.deb"
-  $source = "http://downloads.sourceforge.net/project/wkhtmltopdf/${filename}"
+  $source = "http://downloads.sourceforge.net/project/wkhtmltopdf/${version}/${filename}"
   $deb_file = "/var/cache/${filename}.deb"
   
-  ensure_packages(['wget'])
-
   exec { "$deb_file":
     command => "wget --timestamping $source --output-document=$deb_file",
     require => [Package['wget'] ],

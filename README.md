@@ -2,16 +2,22 @@
 
 Puppet module to install wkhtmltopdf
 
-##Example usage:
 ```
-wkhtmltopdf { '0.11.0_rc1': }
+git submodule add https://github.com/AudiologyHoldings/puppet-wkhtmltopdf.git modules/wkhtmltopdf
+```
+
+##Example usage:
+
+```
+class { 'wkhtmltopdf': }
 ```
 
 ##Available options
+
 ```
-wkhtmltopdf { '0.11.0_rc1': 
-  'version' => '0.11.0_rc1'
+class { 'wkhtmltopdf': 
+  'version' => '0.12.1'
+  'series' => 'trusty',
   'arch' => 'amd64',
-  'target_dir' => '/usr/local/bin',
 }
 ```
