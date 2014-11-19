@@ -12,21 +12,32 @@
 #   renames it to 'wkhtmltopdf'
 #
 # Example use:
-#   wkhtmltopdf { '0.11.0_rc1': }
+#   wkhtmltopdf { }
 #
-define wkhtmltopdf(
-  $version = $name,
-  $arch = 'amd64',
-  $target_dir = '/usr/local/bin'
-) {
-  $filename = "wkhtmltopdf-${version}-static-${arch}.tar.bz2"
-  exec { "wget https://wkhtmltopdf.googlecode.com/files/${filename} && tar -xf ${filename} -C ${target_dir}":
-    cwd => '/tmp',
-    unless => "test -f ${target_dir}/wkhtmltopdf"
-  }
+classs wkhtmltopdf {
+  
+  $version = '0.12.1'
+  $arch = 'amd64'
+  $series = 'trusty'
+  
+  $filename = "wkhtmltox-${version}_linux-${series}-${arch}.deb"
+  $source = "http://downloads.sourceforge.net/project/wkhtmltopdf/${filename}"
+  $deb_file = "/var/cache/${filename}.deb"
+  
+  ensure_packages(['wget'])
 
-  exec { "mv wkhtmltopdf-${arch} wkhtmltopdf":
-    cwd => $target_dir,
-    onlyif => "test -f ${target_dir}/wkhtmltopdf-${arch}"
+  exec { "$deb_file":
+    command => "wget --timestamping $source --output-document=$deb_file",
+    require => [Package['wget'] ],
+    path    => '/usr/bin:/bin',
+    timeout => 600, # allow maximal 10 minutes for download
+    creates => "$deb_file";
+  }
+  
+  package {"wkhtmltopdf":
+    ensure => installed,
+    source => $deb_file,
+    provider => dpkg,
+    require  => Exec["$deb_file"],
   }
 }
