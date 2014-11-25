@@ -15,10 +15,13 @@
 #   wkhtmltopdf { }
 #
 class wkhtmltopdf {
-  
+  if $operatingsystem != 'Ubuntu' {
+	  fail("wkhtmltopdf only supports ubuntu!")
+  }
+
   $version = '0.12.1'
   $arch = 'amd64'
-  $series = 'trusty'
+  $series = $::lsbdistcodename
   
   $filename = "wkhtmltox-${version}_linux-${series}-${arch}.deb"
   $source = "http://downloads.sourceforge.net/project/wkhtmltopdf/${version}/${filename}"
