@@ -35,10 +35,11 @@ class wkhtmltopdf {
     creates => "$deb_file";
   }
   
+  package { ["xfonts-75dpi", "xfonts-base", "xfonts-utils"]: }
   package {"wkhtmltox":
     ensure => latest,
     source => $deb_file,
     provider => dpkg,
-    require  => Exec["$deb_file"],
+    require  => [Exec["$deb_file"], Package["xfonts-75dpi"], Package["xfonts-base"], Package["xfonts-utils"]],
   }
 }
