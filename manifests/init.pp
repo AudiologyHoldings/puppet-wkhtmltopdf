@@ -19,7 +19,7 @@ class wkhtmltopdf {
 	  fail("wkhtmltopdf only supports ubuntu!")
   }
 
-  $version = '0.12.1'
+  $version = '0.12.2.1'
   $arch = 'amd64'
   $series = $::lsbdistcodename
   
