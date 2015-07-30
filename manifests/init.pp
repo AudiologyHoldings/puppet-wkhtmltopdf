@@ -24,7 +24,7 @@ class wkhtmltopdf {
   $series = $::lsbdistcodename
   
   $filename = "wkhtmltox-${version}_linux-${series}-${arch}.deb"
-  $source = "http://downloads.sourceforge.net/project/wkhtmltopdf/${version}/${filename}"
+  $source = "http://download.gna.org/wkhtmltopdf/0.12/${version}/${filename}"
   $deb_file = "/var/cache/${filename}"
   
   exec { "$deb_file":
